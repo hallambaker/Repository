@@ -1,0 +1,31 @@
+﻿#using System.Text
+#using PresenceUnitTests
+#using Goedel.Protocol
+#using Goedel.Utilities
+#% #pragma warning disable IDE0022
+#% #pragma warning disable IDE0060
+#% #pragma warning disable IDE1006
+
+#xclass RepositorySpecification Examples
+#% public static Examples Instance (StreamWriter output) => new Examples () {_Output = output};
+
+
+#method MakeAllExamples Examples Examples
+#% Colophon(Examples);
+#end method
+
+#zfile Examples Colophon "Examples\\Colophon.md" Examples
+
+The examples in this document were created on #{DateTime.Now.ToString()}. 
+Out of #{CountTotal} examples,
+#if (ErrorCountTotal ==0)
+all passed.
+#else
+#{ErrorCountTotal} failed.
+#end if
+
+#end zfile
+
+
+
+#end xclass

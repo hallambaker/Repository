@@ -1,0 +1,8 @@
+﻿
+Namespace repositoryhost
+
+	Exception TBS
+		Console "Exception TBS"
+		Description
+			|TBS
+
