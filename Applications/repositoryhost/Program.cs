@@ -18,7 +18,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-
+using System;
 using Goedel.Utilities;
 using Goedel.Mesh.Shell.Host;
 using Goedel.Repository.Server;
@@ -32,12 +32,12 @@ namespace repositoryhost {
         static Program() => Initialization.Initialized.AssertTrue(Internal.Throw);
 
         static void Main(string[] args) {
-            var commandLineInterpreter = new CommandLineInterpreter();
 
-            commandLineInterpreter.AddService(PublicRepositoryService.ServiceDescription);
-            commandLineInterpreter.AddService(ServiceManagementProvider.ServiceDescription);
+            Shell shell = new Shell(
+                    PublicRepositoryService.ServiceDescription,
+                    ServiceManagementProvider.ServiceDescription);
+            shell.Dispatch(args, Console.Out);
 
-            commandLineInterpreter.MainMethod(args);
             }
         }
     }

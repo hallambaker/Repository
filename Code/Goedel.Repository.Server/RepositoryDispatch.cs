@@ -47,7 +47,10 @@ namespace Goedel.Repository.Server {
         /// <returns></returns>
         public static Goedel.Protocol.JpcInterface Factory(ServiceConfiguration serviceConfiguration,
             HostConfiguration hostConfiguration) => throw new NYI();
-        public override QueryResponse Query(QueryRequest request, IJpcSession session) => throw new System.NotImplementedException();
+
+        public override ReadResponse Read(ReadRequest request, IJpcSession session) => throw new System.NotImplementedException();
+        public override WriteResponse Write(WriteRequest request, IJpcSession session) => throw new System.NotImplementedException();
+        public override DeleteResponse Delete(DeleteRequest request, IJpcSession session) => throw new System.NotImplementedException();
 
         public static ServiceDescription ServiceDescription => new(WellKnown, Factory);
 

@@ -27,21 +27,59 @@
 	
 	
 	// Make presence request.
-	Transaction Service Query QueryRequest QueryResponse
+	Transaction Service Read ReadRequest ReadResponse
 		Description
 			|Request resolution of a profile bound to a callsign or registration identifier.
 			|Returns an envelope containing the signed registration (if found).
 
-	Message QueryRequest
+	Message ReadRequest
+		Description
+			|Register connection request. 
+		External RepositoryRequest
+		Integer FrameStart
+		Integer FrameMax
+		Integer ByteStart
+		Integer ByteMax
+		Boolean Header
+		Boolean Trailer
+
+	Message ReadResponse
+		Description
+			|Return the result of a connection request
+		External RepositoryResponse
+
+
+	Transaction Service Write WriteRequest WriteResponse
+		Description
+			|Request resolution of a profile bound to a callsign or registration identifier.
+			|Returns an envelope containing the signed registration (if found).
+
+	Message WriteRequest
 		Description
 			|Register connection request. 
 		External RepositoryRequest
 
 
-	Message QueryResponse
+	Message WriteResponse
 		Description
 			|Return the result of a connection request
 		External RepositoryResponse
 
+
+	Transaction Service Delete DeleteRequest DeleteResponse
+		Description
+			|Request resolution of a profile bound to a callsign or registration identifier.
+			|Returns an envelope containing the signed registration (if found).
+
+	Message DeleteRequest
+		Description
+			|Register connection request. 
+		External RepositoryRequest
+
+
+	Message DeleteResponse
+		Description
+			|Return the result of a connection request
+		External RepositoryResponse
 
 

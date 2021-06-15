@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //  
 //  
-//  This file was automatically generated at 6/10/2021 5:09:47 PM
+//  This file was automatically generated at 6/15/2021 5:31:30 PM
 //   
 //  Changes to this file may be overwritten without warning
 //  
@@ -76,8 +76,12 @@ namespace Goedel.Repository {
 		static Dictionary<string, JsonFactoryDelegate> _tagDictionary = 
 				new Dictionary<string, JsonFactoryDelegate> () {
 
-			{"QueryRequest", QueryRequest._Factory},
-			{"QueryResponse", QueryResponse._Factory}			};
+			{"ReadRequest", ReadRequest._Factory},
+			{"ReadResponse", ReadResponse._Factory},
+			{"WriteRequest", WriteRequest._Factory},
+			{"WriteResponse", WriteResponse._Factory},
+			{"DeleteRequest", DeleteRequest._Factory},
+			{"DeleteResponse", DeleteResponse._Factory}			};
 
         [ModuleInitializer]
         internal static void _Initialize() => AddDictionary(ref _tagDictionary);
@@ -137,10 +141,22 @@ namespace Goedel.Repository {
 			JsonObject response = null;
 
 			switch (token) {
-				case "Query" : {
-					var request = new QueryRequest();
+				case "Read" : {
+					var request = new ReadRequest();
 					request.Deserialize (jsonReader);
-					response = Query (request, session);
+					response = Read (request, session);
+					break;
+					}
+				case "Write" : {
+					var request = new WriteRequest();
+					request.Deserialize (jsonReader);
+					response = Write (request, session);
+					break;
+					}
+				case "Delete" : {
+					var request = new DeleteRequest();
+					request.Deserialize (jsonReader);
+					response = Delete (request, session);
 					break;
 					}
 				default : {
@@ -165,13 +181,31 @@ namespace Goedel.Repository {
 
 
         /// <summary>
-		/// Base method for implementing the transaction  Query.
+		/// Base method for implementing the transaction  Read.
         /// </summary>
         /// <param name="request">The request object to send to the host.</param>
 		/// <param name="session">The request context.</param>
 		/// <returns>The response object from the service</returns>
-        public abstract QueryResponse Query (
-                QueryRequest request, IJpcSession session);
+        public abstract ReadResponse Read (
+                ReadRequest request, IJpcSession session);
+
+        /// <summary>
+		/// Base method for implementing the transaction  Write.
+        /// </summary>
+        /// <param name="request">The request object to send to the host.</param>
+		/// <param name="session">The request context.</param>
+		/// <returns>The response object from the service</returns>
+        public abstract WriteResponse Write (
+                WriteRequest request, IJpcSession session);
+
+        /// <summary>
+		/// Base method for implementing the transaction  Delete.
+        /// </summary>
+        /// <param name="request">The request object to send to the host.</param>
+		/// <param name="session">The request context.</param>
+		/// <returns>The response object from the service</returns>
+        public abstract DeleteResponse Delete (
+                DeleteRequest request, IJpcSession session);
 
         }
 
@@ -207,8 +241,26 @@ namespace Goedel.Repository {
         /// </summary>		
         /// <param name="request">The request object.</param>
 		/// <returns>The response object</returns>
-        public virtual QueryResponse Query (QueryRequest request) =>
-				JpcSession.Post("Query", request) as QueryResponse;
+        public virtual ReadResponse Read (ReadRequest request) =>
+				JpcSession.Post("Read", request) as ReadResponse;
+
+
+        /// <summary>
+		/// Implement the transaction
+        /// </summary>		
+        /// <param name="request">The request object.</param>
+		/// <returns>The response object</returns>
+        public virtual WriteResponse Write (WriteRequest request) =>
+				JpcSession.Post("Write", request) as WriteResponse;
+
+
+        /// <summary>
+		/// Implement the transaction
+        /// </summary>		
+        /// <param name="request">The request object.</param>
+		/// <returns>The response object</returns>
+        public virtual DeleteResponse Delete (DeleteRequest request) =>
+				JpcSession.Post("Delete", request) as DeleteResponse;
 
 
 		}
@@ -229,8 +281,26 @@ namespace Goedel.Repository {
         /// </summary>		
         /// <param name="request">The request object.</param>
 		/// <returns>The response object</returns>
-        public override QueryResponse Query (QueryRequest request) =>
-				Service.Query (request, JpcSession);
+        public override ReadResponse Read (ReadRequest request) =>
+				Service.Read (request, JpcSession);
+
+
+        /// <summary>
+		/// Implement the transaction
+        /// </summary>		
+        /// <param name="request">The request object.</param>
+		/// <returns>The response object</returns>
+        public override WriteResponse Write (WriteRequest request) =>
+				Service.Write (request, JpcSession);
+
+
+        /// <summary>
+		/// Implement the transaction
+        /// </summary>		
+        /// <param name="request">The request object.</param>
+		/// <returns>The response object</returns>
+        public override DeleteResponse Delete (DeleteRequest request) =>
+				Service.Delete (request, JpcSession);
 
 
 		}
@@ -262,10 +332,22 @@ namespace Goedel.Repository {
 			JsonObject response = null;
 
 			switch (token) {
-				case "Query" : {
-					var request = new QueryRequest();
+				case "Read" : {
+					var request = new ReadRequest();
 					request.Deserialize (jsonReader);
-					response = Service.Query (request, session);
+					response = Service.Read (request, session);
+					break;
+					}
+				case "Write" : {
+					var request = new WriteRequest();
+					request.Deserialize (jsonReader);
+					response = Service.Write (request, session);
+					break;
+					}
+				case "Delete" : {
+					var request = new DeleteRequest();
+					request.Deserialize (jsonReader);
+					response = Service.Delete (request, session);
 					break;
 					}
 				default : {
@@ -287,7 +369,61 @@ namespace Goedel.Repository {
 	///
 	/// Register connection request. 
 	/// </summary>
-	public partial class QueryRequest : RepositoryRequest {
+	public partial class ReadRequest : RepositoryRequest {
+		bool								__FrameStart = false;
+		private int						_FrameStart;
+        /// <summary>
+        /// </summary>
+
+		public virtual int						FrameStart {
+			get => _FrameStart;
+			set {_FrameStart = value; __FrameStart = true; }
+			}
+		bool								__FrameMax = false;
+		private int						_FrameMax;
+        /// <summary>
+        /// </summary>
+
+		public virtual int						FrameMax {
+			get => _FrameMax;
+			set {_FrameMax = value; __FrameMax = true; }
+			}
+		bool								__ByteStart = false;
+		private int						_ByteStart;
+        /// <summary>
+        /// </summary>
+
+		public virtual int						ByteStart {
+			get => _ByteStart;
+			set {_ByteStart = value; __ByteStart = true; }
+			}
+		bool								__ByteMax = false;
+		private int						_ByteMax;
+        /// <summary>
+        /// </summary>
+
+		public virtual int						ByteMax {
+			get => _ByteMax;
+			set {_ByteMax = value; __ByteMax = true; }
+			}
+		bool								__Header = false;
+		private bool						_Header;
+        /// <summary>
+        /// </summary>
+
+		public virtual bool						Header {
+			get => _Header;
+			set {_Header = value; __Header = true; }
+			}
+		bool								__Trailer = false;
+		private bool						_Trailer;
+        /// <summary>
+        /// </summary>
+
+		public virtual bool						Trailer {
+			get => _Trailer;
+			set {_Trailer = value; __Trailer = true; }
+			}
 		
 		/// <summary>
         /// Tag identifying this class
@@ -297,13 +433,13 @@ namespace Goedel.Repository {
 		/// <summary>
         /// Tag identifying this class
         /// </summary>
-		public new const string __Tag = "QueryRequest";
+		public new const string __Tag = "ReadRequest";
 
 		/// <summary>
         /// Factory method
         /// </summary>
         /// <returns>Object of this type</returns>
-		public static new JsonObject _Factory () => new QueryRequest();
+		public static new JsonObject _Factory () => new ReadRequest();
 
 
         /// <summary>
@@ -332,6 +468,36 @@ namespace Goedel.Repository {
 				_writer.WriteObjectStart ();
 				}
 			((RepositoryRequest)this).SerializeX(_writer, false, ref _first);
+			if (__FrameStart){
+				_writer.WriteObjectSeparator (ref _first);
+				_writer.WriteToken ("FrameStart", 1);
+					_writer.WriteInteger32 (FrameStart);
+				}
+			if (__FrameMax){
+				_writer.WriteObjectSeparator (ref _first);
+				_writer.WriteToken ("FrameMax", 1);
+					_writer.WriteInteger32 (FrameMax);
+				}
+			if (__ByteStart){
+				_writer.WriteObjectSeparator (ref _first);
+				_writer.WriteToken ("ByteStart", 1);
+					_writer.WriteInteger32 (ByteStart);
+				}
+			if (__ByteMax){
+				_writer.WriteObjectSeparator (ref _first);
+				_writer.WriteToken ("ByteMax", 1);
+					_writer.WriteInteger32 (ByteMax);
+				}
+			if (__Header){
+				_writer.WriteObjectSeparator (ref _first);
+				_writer.WriteToken ("Header", 1);
+					_writer.WriteBoolean (Header);
+				}
+			if (__Trailer){
+				_writer.WriteObjectSeparator (ref _first);
+				_writer.WriteToken ("Trailer", 1);
+					_writer.WriteBoolean (Trailer);
+				}
 			if (_wrap) {
 				_writer.WriteObjectEnd ();
 				}
@@ -343,15 +509,15 @@ namespace Goedel.Repository {
         /// <param name="jsonReader">The input stream</param>
 		/// <param name="tagged">If true, the input is wrapped in a tag specifying the type</param>
         /// <returns>The created object.</returns>		
-        public static new QueryRequest FromJson (JsonReader jsonReader, bool tagged=true) {
+        public static new ReadRequest FromJson (JsonReader jsonReader, bool tagged=true) {
 			if (jsonReader == null) {
 				return null;
 				}
 			if (tagged) {
 				var Out = jsonReader.ReadTaggedObject (_TagDictionary);
-				return Out as QueryRequest;
+				return Out as ReadRequest;
 				}
-		    var Result = new QueryRequest ();
+		    var Result = new ReadRequest ();
 			Result.Deserialize (jsonReader);
 			Result.PostDecode();
 			return Result;
@@ -365,6 +531,30 @@ namespace Goedel.Repository {
 		public override void DeserializeToken (JsonReader jsonReader, string tag) {
 			
 			switch (tag) {
+				case "FrameStart" : {
+					FrameStart = jsonReader.ReadInteger32 ();
+					break;
+					}
+				case "FrameMax" : {
+					FrameMax = jsonReader.ReadInteger32 ();
+					break;
+					}
+				case "ByteStart" : {
+					ByteStart = jsonReader.ReadInteger32 ();
+					break;
+					}
+				case "ByteMax" : {
+					ByteMax = jsonReader.ReadInteger32 ();
+					break;
+					}
+				case "Header" : {
+					Header = jsonReader.ReadBoolean ();
+					break;
+					}
+				case "Trailer" : {
+					Trailer = jsonReader.ReadBoolean ();
+					break;
+					}
 				default : {
 					base.DeserializeToken(jsonReader, tag);
 					break;
@@ -380,7 +570,7 @@ namespace Goedel.Repository {
 	///
 	/// Return the result of a connection request
 	/// </summary>
-	public partial class QueryResponse : RepositoryResponse {
+	public partial class ReadResponse : RepositoryResponse {
 		
 		/// <summary>
         /// Tag identifying this class
@@ -390,13 +580,13 @@ namespace Goedel.Repository {
 		/// <summary>
         /// Tag identifying this class
         /// </summary>
-		public new const string __Tag = "QueryResponse";
+		public new const string __Tag = "ReadResponse";
 
 		/// <summary>
         /// Factory method
         /// </summary>
         /// <returns>Object of this type</returns>
-		public static new JsonObject _Factory () => new QueryResponse();
+		public static new JsonObject _Factory () => new ReadResponse();
 
 
         /// <summary>
@@ -436,15 +626,387 @@ namespace Goedel.Repository {
         /// <param name="jsonReader">The input stream</param>
 		/// <param name="tagged">If true, the input is wrapped in a tag specifying the type</param>
         /// <returns>The created object.</returns>		
-        public static new QueryResponse FromJson (JsonReader jsonReader, bool tagged=true) {
+        public static new ReadResponse FromJson (JsonReader jsonReader, bool tagged=true) {
 			if (jsonReader == null) {
 				return null;
 				}
 			if (tagged) {
 				var Out = jsonReader.ReadTaggedObject (_TagDictionary);
-				return Out as QueryResponse;
+				return Out as ReadResponse;
 				}
-		    var Result = new QueryResponse ();
+		    var Result = new ReadResponse ();
+			Result.Deserialize (jsonReader);
+			Result.PostDecode();
+			return Result;
+			}
+
+        /// <summary>
+        /// Having read a tag, process the corresponding value data.
+        /// </summary>
+        /// <param name="jsonReader">The input stream</param>
+        /// <param name="tag">The tag</param>
+		public override void DeserializeToken (JsonReader jsonReader, string tag) {
+			
+			switch (tag) {
+				default : {
+					base.DeserializeToken(jsonReader, tag);
+					break;
+					}
+				}
+			// check up that all the required elements are present
+			}
+
+
+		}
+
+	/// <summary>
+	///
+	/// Register connection request. 
+	/// </summary>
+	public partial class WriteRequest : RepositoryRequest {
+		
+		/// <summary>
+        /// Tag identifying this class
+        /// </summary>
+		public override string _Tag => __Tag;
+
+		/// <summary>
+        /// Tag identifying this class
+        /// </summary>
+		public new const string __Tag = "WriteRequest";
+
+		/// <summary>
+        /// Factory method
+        /// </summary>
+        /// <returns>Object of this type</returns>
+		public static new JsonObject _Factory () => new WriteRequest();
+
+
+        /// <summary>
+        /// Serialize this object to the specified output stream.
+        /// </summary>
+        /// <param name="writer">Output stream</param>
+        /// <param name="wrap">If true, output is wrapped with object
+        /// start and end sequences '{ ... }'.</param>
+        /// <param name="first">If true, item is the first entry in a list.</param>
+		public override void Serialize (Writer writer, bool wrap, ref bool first) =>
+			SerializeX (writer, wrap, ref first);
+
+
+        /// <summary>
+        /// Serialize this object to the specified output stream.
+        /// Unlike the Serlialize() method, this method is not inherited from the
+        /// parent class allowing a specific version of the method to be called.
+        /// </summary>
+        /// <param name="_writer">Output stream</param>
+        /// <param name="_wrap">If true, output is wrapped with object
+        /// start and end sequences '{ ... }'.</param>
+        /// <param name="_first">If true, item is the first entry in a list.</param>
+		public new void SerializeX (Writer _writer, bool _wrap, ref bool _first) {
+			PreEncode();
+			if (_wrap) {
+				_writer.WriteObjectStart ();
+				}
+			((RepositoryRequest)this).SerializeX(_writer, false, ref _first);
+			if (_wrap) {
+				_writer.WriteObjectEnd ();
+				}
+			}
+
+        /// <summary>
+        /// Deserialize a tagged stream
+        /// </summary>
+        /// <param name="jsonReader">The input stream</param>
+		/// <param name="tagged">If true, the input is wrapped in a tag specifying the type</param>
+        /// <returns>The created object.</returns>		
+        public static new WriteRequest FromJson (JsonReader jsonReader, bool tagged=true) {
+			if (jsonReader == null) {
+				return null;
+				}
+			if (tagged) {
+				var Out = jsonReader.ReadTaggedObject (_TagDictionary);
+				return Out as WriteRequest;
+				}
+		    var Result = new WriteRequest ();
+			Result.Deserialize (jsonReader);
+			Result.PostDecode();
+			return Result;
+			}
+
+        /// <summary>
+        /// Having read a tag, process the corresponding value data.
+        /// </summary>
+        /// <param name="jsonReader">The input stream</param>
+        /// <param name="tag">The tag</param>
+		public override void DeserializeToken (JsonReader jsonReader, string tag) {
+			
+			switch (tag) {
+				default : {
+					base.DeserializeToken(jsonReader, tag);
+					break;
+					}
+				}
+			// check up that all the required elements are present
+			}
+
+
+		}
+
+	/// <summary>
+	///
+	/// Return the result of a connection request
+	/// </summary>
+	public partial class WriteResponse : RepositoryResponse {
+		
+		/// <summary>
+        /// Tag identifying this class
+        /// </summary>
+		public override string _Tag => __Tag;
+
+		/// <summary>
+        /// Tag identifying this class
+        /// </summary>
+		public new const string __Tag = "WriteResponse";
+
+		/// <summary>
+        /// Factory method
+        /// </summary>
+        /// <returns>Object of this type</returns>
+		public static new JsonObject _Factory () => new WriteResponse();
+
+
+        /// <summary>
+        /// Serialize this object to the specified output stream.
+        /// </summary>
+        /// <param name="writer">Output stream</param>
+        /// <param name="wrap">If true, output is wrapped with object
+        /// start and end sequences '{ ... }'.</param>
+        /// <param name="first">If true, item is the first entry in a list.</param>
+		public override void Serialize (Writer writer, bool wrap, ref bool first) =>
+			SerializeX (writer, wrap, ref first);
+
+
+        /// <summary>
+        /// Serialize this object to the specified output stream.
+        /// Unlike the Serlialize() method, this method is not inherited from the
+        /// parent class allowing a specific version of the method to be called.
+        /// </summary>
+        /// <param name="_writer">Output stream</param>
+        /// <param name="_wrap">If true, output is wrapped with object
+        /// start and end sequences '{ ... }'.</param>
+        /// <param name="_first">If true, item is the first entry in a list.</param>
+		public new void SerializeX (Writer _writer, bool _wrap, ref bool _first) {
+			PreEncode();
+			if (_wrap) {
+				_writer.WriteObjectStart ();
+				}
+			((RepositoryResponse)this).SerializeX(_writer, false, ref _first);
+			if (_wrap) {
+				_writer.WriteObjectEnd ();
+				}
+			}
+
+        /// <summary>
+        /// Deserialize a tagged stream
+        /// </summary>
+        /// <param name="jsonReader">The input stream</param>
+		/// <param name="tagged">If true, the input is wrapped in a tag specifying the type</param>
+        /// <returns>The created object.</returns>		
+        public static new WriteResponse FromJson (JsonReader jsonReader, bool tagged=true) {
+			if (jsonReader == null) {
+				return null;
+				}
+			if (tagged) {
+				var Out = jsonReader.ReadTaggedObject (_TagDictionary);
+				return Out as WriteResponse;
+				}
+		    var Result = new WriteResponse ();
+			Result.Deserialize (jsonReader);
+			Result.PostDecode();
+			return Result;
+			}
+
+        /// <summary>
+        /// Having read a tag, process the corresponding value data.
+        /// </summary>
+        /// <param name="jsonReader">The input stream</param>
+        /// <param name="tag">The tag</param>
+		public override void DeserializeToken (JsonReader jsonReader, string tag) {
+			
+			switch (tag) {
+				default : {
+					base.DeserializeToken(jsonReader, tag);
+					break;
+					}
+				}
+			// check up that all the required elements are present
+			}
+
+
+		}
+
+	/// <summary>
+	///
+	/// Register connection request. 
+	/// </summary>
+	public partial class DeleteRequest : RepositoryRequest {
+		
+		/// <summary>
+        /// Tag identifying this class
+        /// </summary>
+		public override string _Tag => __Tag;
+
+		/// <summary>
+        /// Tag identifying this class
+        /// </summary>
+		public new const string __Tag = "DeleteRequest";
+
+		/// <summary>
+        /// Factory method
+        /// </summary>
+        /// <returns>Object of this type</returns>
+		public static new JsonObject _Factory () => new DeleteRequest();
+
+
+        /// <summary>
+        /// Serialize this object to the specified output stream.
+        /// </summary>
+        /// <param name="writer">Output stream</param>
+        /// <param name="wrap">If true, output is wrapped with object
+        /// start and end sequences '{ ... }'.</param>
+        /// <param name="first">If true, item is the first entry in a list.</param>
+		public override void Serialize (Writer writer, bool wrap, ref bool first) =>
+			SerializeX (writer, wrap, ref first);
+
+
+        /// <summary>
+        /// Serialize this object to the specified output stream.
+        /// Unlike the Serlialize() method, this method is not inherited from the
+        /// parent class allowing a specific version of the method to be called.
+        /// </summary>
+        /// <param name="_writer">Output stream</param>
+        /// <param name="_wrap">If true, output is wrapped with object
+        /// start and end sequences '{ ... }'.</param>
+        /// <param name="_first">If true, item is the first entry in a list.</param>
+		public new void SerializeX (Writer _writer, bool _wrap, ref bool _first) {
+			PreEncode();
+			if (_wrap) {
+				_writer.WriteObjectStart ();
+				}
+			((RepositoryRequest)this).SerializeX(_writer, false, ref _first);
+			if (_wrap) {
+				_writer.WriteObjectEnd ();
+				}
+			}
+
+        /// <summary>
+        /// Deserialize a tagged stream
+        /// </summary>
+        /// <param name="jsonReader">The input stream</param>
+		/// <param name="tagged">If true, the input is wrapped in a tag specifying the type</param>
+        /// <returns>The created object.</returns>		
+        public static new DeleteRequest FromJson (JsonReader jsonReader, bool tagged=true) {
+			if (jsonReader == null) {
+				return null;
+				}
+			if (tagged) {
+				var Out = jsonReader.ReadTaggedObject (_TagDictionary);
+				return Out as DeleteRequest;
+				}
+		    var Result = new DeleteRequest ();
+			Result.Deserialize (jsonReader);
+			Result.PostDecode();
+			return Result;
+			}
+
+        /// <summary>
+        /// Having read a tag, process the corresponding value data.
+        /// </summary>
+        /// <param name="jsonReader">The input stream</param>
+        /// <param name="tag">The tag</param>
+		public override void DeserializeToken (JsonReader jsonReader, string tag) {
+			
+			switch (tag) {
+				default : {
+					base.DeserializeToken(jsonReader, tag);
+					break;
+					}
+				}
+			// check up that all the required elements are present
+			}
+
+
+		}
+
+	/// <summary>
+	///
+	/// Return the result of a connection request
+	/// </summary>
+	public partial class DeleteResponse : RepositoryResponse {
+		
+		/// <summary>
+        /// Tag identifying this class
+        /// </summary>
+		public override string _Tag => __Tag;
+
+		/// <summary>
+        /// Tag identifying this class
+        /// </summary>
+		public new const string __Tag = "DeleteResponse";
+
+		/// <summary>
+        /// Factory method
+        /// </summary>
+        /// <returns>Object of this type</returns>
+		public static new JsonObject _Factory () => new DeleteResponse();
+
+
+        /// <summary>
+        /// Serialize this object to the specified output stream.
+        /// </summary>
+        /// <param name="writer">Output stream</param>
+        /// <param name="wrap">If true, output is wrapped with object
+        /// start and end sequences '{ ... }'.</param>
+        /// <param name="first">If true, item is the first entry in a list.</param>
+		public override void Serialize (Writer writer, bool wrap, ref bool first) =>
+			SerializeX (writer, wrap, ref first);
+
+
+        /// <summary>
+        /// Serialize this object to the specified output stream.
+        /// Unlike the Serlialize() method, this method is not inherited from the
+        /// parent class allowing a specific version of the method to be called.
+        /// </summary>
+        /// <param name="_writer">Output stream</param>
+        /// <param name="_wrap">If true, output is wrapped with object
+        /// start and end sequences '{ ... }'.</param>
+        /// <param name="_first">If true, item is the first entry in a list.</param>
+		public new void SerializeX (Writer _writer, bool _wrap, ref bool _first) {
+			PreEncode();
+			if (_wrap) {
+				_writer.WriteObjectStart ();
+				}
+			((RepositoryResponse)this).SerializeX(_writer, false, ref _first);
+			if (_wrap) {
+				_writer.WriteObjectEnd ();
+				}
+			}
+
+        /// <summary>
+        /// Deserialize a tagged stream
+        /// </summary>
+        /// <param name="jsonReader">The input stream</param>
+		/// <param name="tagged">If true, the input is wrapped in a tag specifying the type</param>
+        /// <returns>The created object.</returns>		
+        public static new DeleteResponse FromJson (JsonReader jsonReader, bool tagged=true) {
+			if (jsonReader == null) {
+				return null;
+				}
+			if (tagged) {
+				var Out = jsonReader.ReadTaggedObject (_TagDictionary);
+				return Out as DeleteResponse;
+				}
+		    var Result = new DeleteResponse ();
 			Result.Deserialize (jsonReader);
 			Result.PostDecode();
 			return Result;
